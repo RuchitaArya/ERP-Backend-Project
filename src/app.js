@@ -1,6 +1,5 @@
 import express from "express";
 import "dotenv/config";
-
 import { deptRoutes, authRoutes, roleRoutes , permissionRoutes} from "./routes/index.js";
 import { errorHandler } from "./middlewares/index.js";
 
@@ -19,6 +18,7 @@ app.use("/api/dept", deptRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/role",roleRoutes);
 app.use("/api/permission",permissionRoutes);
+
 
 // express default error handing middleware
 app.use(errorHandler);

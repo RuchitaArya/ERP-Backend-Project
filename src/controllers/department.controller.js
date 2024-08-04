@@ -1,21 +1,18 @@
 import { CustomError } from "../utils/index.js";
 import { Department } from "../models/index.js";
 
-let departments = [
-    { id: "D101", name: "Development" },
-    { id: "D102", name: "HR" },
-    { id: "D103", name: "digital" },
-];
 
 export const createDept = async (req, res) => {
-    // console.log(req.body);
 
     const { name } = req.body;
+    console.log(req.user);
+    return;
 
     if (!name) {
          throw new CustomError("plese fill all the fields.", 400)
     }
-        const department = await Department.create({ name });
+    
+    const department = await Department.create({ name });
    
     res.status(201).json({
         success: true,

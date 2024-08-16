@@ -8,7 +8,6 @@ const hashPassword = async (password) => {
     const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
 };
-
 const checkPassword = async (password, actualPassword) => {
 
     const isMatched = await bcrypt.compare(password, actualPassword);
@@ -57,21 +56,22 @@ const passwordGenerator = () => {
         excludeSimilarCharacters: true,
     });
 };
-
 const generateAccessToken = (userId) => {
     // require('crypto').randomBytes(64).toString('hex')
     return jwt.sign(
         { userId },
-        process.env.ACCESS_TOKEN_SECRET_KEY, {
-        expiresIn: "10m",
-    });
+        process.env.ACCESS_TOKEN_SECRET_KEY,
+        {
+            expiresIn: "10m",
+        });
 }
 const generateRefreshToken = (userId) => {
     return jwt.sign(
         { userId },
-        process.env.REFRESH_TOKEN_SECRET_KEY, {
-        expiresIn: "7d",
-    });
+        process.env.REFRESH_TOKEN_SECRET_KEY,
+        {
+            expiresIn: "7d",
+        });
 }
 const verifyRefreshToken = (token) => {
     let decodedToken;
@@ -91,7 +91,7 @@ export const registerUser = async (req, res) => {
         throw new CustomError("please fill all the fields.", 400);
 
     }
-    const isUserExist = await CheckEmail(email);
+    const isUserExist = await checkEmail(email);
 
     if (isUserExist) {
         throw new CustomError("User with this email already exists.", 400)
@@ -118,7 +118,7 @@ export const registerUser = async (req, res) => {
     })
 
 
-
+    // avni-> J19Yw1)f>(Z~
     //  anu -> fj,)kwP=2f#3
     // arnv -> arnv987
 };
@@ -172,8 +172,6 @@ export const login = async (req, res, next) => {
         // domain:".abc.com",
 
     })
-    // console.log(user);
-
     //    frontend ->abc.com
     // backend -> api.abc.com
     res.status(200).json({
@@ -191,10 +189,10 @@ export const getNewAccessTocken = async (req, res) => {
         throw new CustomError("Session Expried", 403)
     }
     const decodedToken = verifyRefreshToken(refreshToken);
-
+    console.log(decodedToken);
     const accessToken = generateAccessToken(decodedToken.userId);
 
-    const user = await user.findById(decodedToken.userId)
+    const user = await User.findById(decodedToken.userId)
     const userObj = {
         userId: user._id,
         name: user?.name,
